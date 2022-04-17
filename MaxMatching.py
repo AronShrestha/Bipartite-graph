@@ -29,16 +29,17 @@ graph = Graph(3)
 graph.insert_edge('m0','w0',1)
 graph.insert_edge('m0', 'w1',1)
 graph.insert_edge('m1', 'w0',1)
-graph.insert_edge('m2','w2',1)
+graph.insert_edge('m2','w1',1)
 adjacency_matrix = graph.adjacency_matrix()
 max_number,partner =maximum_matching(len(adjacency_matrix),adjacency_matrix)
 print("maximum partner :",max_number)
 print(partner)
 max_partner_graph={}
 for men,women in enumerate(partner):
-    i='m'+str(men) 
-    j='w'+str(women)
-    max_partner_graph[i]=[j]
+    if women != -1:
+        i='m'+str(men) 
+        j='w'+str(women)
+        max_partner_graph[i]=[j]
 
 print(max_partner_graph)
 
