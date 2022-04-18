@@ -1,7 +1,7 @@
 class Node:
     def __init__(self,value) -> None:
         self.value = value
-        self.int_value = int(value[1])
+        self.int_value = int(value[1])#this can have issue for higher value greater than decimal
         if value[0].lower()=='m':
             self.type = "man"
         elif value[0].lower == 'w':
