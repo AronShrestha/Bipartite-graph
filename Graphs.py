@@ -17,8 +17,15 @@ class Graph:
         self.edges = edges
 
     def insert_node(self,node_value):
-        new_node = Node(node_value)
-        self.nodes.append(new_node)
+        for node in self.nodes:
+            if node.value == node_value:
+                exist_already = True
+                break
+        if exist_already:
+            print("Node already exists.")    
+        else:
+            new_node = Node(node_value)
+            self.nodes.append(new_node)
     
     def insert_edge(self,node_from_val,node_to_val,weight=1):
         from_found = None 
@@ -30,11 +37,11 @@ class Graph:
             if node_to_val == node.value:
                 to_found = node
         
-        if from_found == None :
+        if not from_found:
             from_found = Node(node_from_val)
             self.nodes.append(from_found)
 
-        if to_found == None :
+        if not to_found:
             to_found = Node(node_to_val)
             self.nodes.append(to_found)
         
