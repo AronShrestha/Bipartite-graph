@@ -18,6 +18,10 @@ class Edge:
         self.node_from = node_from
         self.node_to = node_to
 
+    def search(self, node1_value, node2_value):         #search for an edge with the held for nodes values
+        if self.node_from.value == node1_value and self.node_to.value == node2_value:
+            return self
+
 
 class Graph:
     def __init__(self,nodes_number, nodes=[],edges=[]) -> None:
@@ -49,19 +53,46 @@ class Graph:
         
         if not from_found:
             from_found = Node(node_from_val)
-            print(from_found.value)
             self.nodes.append(from_found)
 
         if not to_found:
             to_found = Node(node_to_val)
-            print(to_found.value)
             self.nodes.append(to_found)
         
         new_edge = Edge(from_found,to_found,weight)
         self.edges.append(new_edge)
 
+    def reverse_edges(self, node1_val, node2_val):          #reverse edges for residual graph
+        start_node = None 
+        end_node = None
+        for node in self.nodes:
+            if node1_val == node.value:
+                start_node = node 
+            
+            if node2_val == node.value:
+                end_node = node
+
+        for edge in self.edges:
+            if edge.node_from.value == start_node.value and edge.node_to.value == end_node.value:
+                self.edges.remove(edge.search(node1_val,node2_val))
+                self.edges.append(Edge(end_node,start_node))
+              
 
     def adjacency_matrix(self):
+
+        reversed_pair_count = 0
+
+        for edge in self.edges:
+            if edge.node_from.value[0] == 'w' and edge.node_to.value[0] == 'm':
+                reversed_pair_count +=1
+
+        for _ in range(reversed_pair_count):                #reverse edges for each earlier reversed pair to undo the effects in sdjacent matrix
+            for edge in self.edges:
+                # print(f"{edge.node_from.value},{edge.node_to.value}")
+                if edge.node_from.value[0] == 'w' and edge.node_to.value[0] == 'm':
+                    self.reverse_edges(edge.node_from.value, edge.node_to.value)
+
+
         matrix =[[0 for _ in range(0,self.nodes_number+1)] for _ in range(1,self.nodes_number+1)]
        
         for edge in self.edges:
@@ -69,32 +100,16 @@ class Graph:
             
 
         return matrix
-        # max_index = self.find_max_index()
-        # matrix =[[0 for i in range(max_index+1)] for j in range(max_index+1)]
-        # print(matrix)
-        # for edge in self.edges:
-        #     matrix[edge.node_from.value][edge.node_to.value] = edge.weight
-
-        # return matrix
-    
-    # def find_max_index(self):
-    #     max_index = -1
-    #     if len(self.nodes) == 0:
-    #         return "Empty list"
-        
-    #     else:
-    #         for node in self.nodes:
-    #             if node.value > max_index:
-    #                 max_index = node.value
-
-    #     return max_index
 
 graph = Graph(3)
 graph.insert_edge('m1', 'w1',1)
 graph.insert_edge('m2', 'w2',1)
 graph.insert_edge('m3', 'w3',1)
 graph.insert_edge('m3', 'w1',1)
+graph.reverse_edges('m3','w3')
+graph.reverse_edges('m3','w1')
 print(graph.adjacency_matrix())
+
         
 
         
