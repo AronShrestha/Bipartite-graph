@@ -1,6 +1,15 @@
 class Node:
     def __init__(self,value) -> None:
         self.value = value
+        self.int_value = int(value[1])
+        if value[0].lower()=='m':
+            self.type = "man"
+        elif value[0].lower == 'w':
+            self.type = "woman"
+        elif value[0].lower == 's':
+            self.type = "source"
+        else:
+            self.type = "sink"        
         self.edges =[]
 
 class Edge:
@@ -11,10 +20,11 @@ class Edge:
 
 
 class Graph:
-    def __init__(self,nodes=[],edges=[]) -> None:
+    def __init__(self,nodes_number, nodes=[],edges=[]) -> None:
         self.__size =0
         self.nodes = nodes
         self.edges = edges
+        self.nodes_number = nodes_number
 
     def insert_node(self,node_value):
         for node in self.nodes:
@@ -39,10 +49,12 @@ class Graph:
         
         if not from_found:
             from_found = Node(node_from_val)
+            print(from_found.value)
             self.nodes.append(from_found)
 
         if not to_found:
             to_found = Node(node_to_val)
+            print(to_found.value)
             self.nodes.append(to_found)
         
         new_edge = Edge(from_found,to_found,weight)
@@ -50,33 +62,38 @@ class Graph:
 
 
     def adjacency_matrix(self):
-        max_index = self.find_max_index()
-        matrix =[[0 for i in range(max_index+1)] for j in range(max_index+1)]
-        print(matrix)
+        matrix =[[0 for _ in range(0,self.nodes_number+1)] for _ in range(1,self.nodes_number+1)]
+       
         for edge in self.edges:
-            matrix[edge.node_from.value][edge.node_to.value] = edge.weight
+            matrix[edge.node_from.int_value - 1][edge.node_to.int_value] = edge.weight
+            
 
         return matrix
+        # max_index = self.find_max_index()
+        # matrix =[[0 for i in range(max_index+1)] for j in range(max_index+1)]
+        # print(matrix)
+        # for edge in self.edges:
+        #     matrix[edge.node_from.value][edge.node_to.value] = edge.weight
+
+        # return matrix
     
-    def find_max_index(self):
-        max_index = -1
-        if len(self.nodes) == 0:
-            return "Empty list"
+    # def find_max_index(self):
+    #     max_index = -1
+    #     if len(self.nodes) == 0:
+    #         return "Empty list"
         
-        else:
-            for node in self.nodes:
-                if node.value > max_index:
-                    max_index = node.value
+    #     else:
+    #         for node in self.nodes:
+    #             if node.value > max_index:
+    #                 max_index = node.value
 
-        return max_index
+    #     return max_index
 
-graph = Graph()
-graph.insert_edge(0, 2,1)
-graph.insert_edge(1, 3,1)
-graph.insert_edge(1, 4,1)
-graph.insert_edge(3, 4,1)
-graph.insert_edge(5, 4,1)
-graph.insert_edge(4, 5,1)
+graph = Graph(3)
+graph.insert_edge('m1', 'w1',1)
+graph.insert_edge('m2', 'w2',1)
+graph.insert_edge('m3', 'w3',1)
+graph.insert_edge('m3', 'w1',1)
 print(graph.adjacency_matrix())
         
 
