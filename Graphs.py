@@ -4,7 +4,7 @@ class Node:
         self.int_value = int(value[1:])
         if value[0].lower()=='m':
             self.type = "man"
-        elif value[0].lower == 'w':
+        elif value[0].lower =='w':
             self.type = "woman"
         elif value[0].lower == 's':
             self.type = "source"
@@ -25,7 +25,6 @@ class Edge:
 
 class Graph:
     def __init__(self,nodes_number, nodes=[],edges=[]) -> None:
-        self.__size =0
         self.nodes = nodes
         self.edges = edges
         self.nodes_number = nodes_number
@@ -100,15 +99,6 @@ class Graph:
             
 
         return matrix
-
-graph = Graph(3)
-graph.insert_edge('m1', 'w1',1)
-graph.insert_edge('m2', 'w2',1)
-graph.insert_edge('m3', 'w3',1)
-graph.insert_edge('m3', 'w1',1)
-graph.reverse_edges('m3','w3')
-graph.reverse_edges('m3','w1')
-print(graph.adjacency_matrix())
 
         
 
