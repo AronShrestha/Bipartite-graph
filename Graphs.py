@@ -82,13 +82,13 @@ class Graph:
         reversed_pair_count = 0
 
         for edge in self.edges:
-            if edge.node_from.value[0] == 'w' and edge.node_to.value[0] == 'm':
+            if edge.node_from.value[0] == 'W' and edge.node_to.value[0] == 'M':
                 reversed_pair_count +=1
 
         for _ in range(reversed_pair_count):                #reverse edges for each earlier reversed pair to undo the effects in sdjacent matrix
             for edge in self.edges:
                 # print(f"{edge.node_from.value},{edge.node_to.value}")
-                if edge.node_from.value[0] == 'w' and edge.node_to.value[0] == 'm':
+                if edge.node_from.value[0] == 'W' and edge.node_to.value[0] == 'M':
                     self.reverse_edges(edge.node_from.value, edge.node_to.value)
 
 
